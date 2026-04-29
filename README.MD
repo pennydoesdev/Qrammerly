@@ -65,12 +65,26 @@ a common shape `{start, end, original, replacement, type, explanation}`, then
 clusters overlapping spans and ranks them by how many models agree. Missing or
 failing providers degrade gracefully.
 
-## Bring your own keys (BYOK)
+## Bring your own keys (BYOK) and pick your own models
 
 Keys live on the device. Extension stores them in `chrome.storage.local`; Mac
-app stores them in the macOS Keychain. Each request includes a `keys` object
-the server uses transiently and never persists. Server `.env` keys remain a
-fallback when the client doesn't send a value.
+app stores them in `UserDefaults` (Keychain on the roadmap). Each request
+includes a `keys` object the server uses transiently and never persists.
+Server `.env` keys remain a fallback when the client doesn't send a value.
+
+Each provider also accepts a per-request **model override**. The client sends
+a `models` map alongside `keys`; an empty value falls back to the default.
+The server exposes `GET /v1/models` so the UI can populate suggestion
+datalists (the popup's *Keys & Models* tab and the Mac app's settings sheet
+both render from this endpoint).
+
+```json
+{
+  "text": "...",
+  "keys":   { "openai": "sk-...", "anthropic": "sk-ant-..." },
+  "models": { "openai": "gpt-4o-mini", "anthropic": "claude-opus-4-7" }
+}
+```
 
 ## Featherless community key
 

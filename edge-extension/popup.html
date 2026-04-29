@@ -18,7 +18,7 @@
 
     <nav class="tabs">
       <button class="tab active" data-tab="check">Check</button>
-      <button class="tab" data-tab="keys">Keys</button>
+      <button class="tab" data-tab="keys">Keys &amp; Models</button>
       <button class="tab" data-tab="featherless">Featherless</button>
       <button class="tab" data-tab="settings">Settings</button>
     </nav>
@@ -33,29 +33,16 @@
     </section>
 
     <section class="panel hidden" data-pane="keys">
-      <p class="hint">Keys are stored on this device only. They're sent to your local Qrammarly server with each request and never persisted there.</p>
-      <div class="keygrid">
-        <label>OpenAI         <input data-key="openai" type="password" placeholder="sk-..." /></label>
-        <label>Anthropic      <input data-key="anthropic" type="password" placeholder="sk-ant-..." /></label>
-        <label>Google         <input data-key="google" type="password" placeholder="AIza..." /></label>
-        <label>Together (Llama) <input data-key="together" type="password" /></label>
-        <label>Mistral        <input data-key="mistral" type="password" /></label>
-        <label>Cohere         <input data-key="cohere" type="password" /></label>
-        <label>DeepSeek       <input data-key="deepseek" type="password" /></label>
-        <label>Qwen           <input data-key="qwen" type="password" /></label>
-        <label>xAI (Grok)     <input data-key="xai" type="password" /></label>
-        <label>Perplexity     <input data-key="perplexity" type="password" /></label>
-        <label>Moonshot (Kimi) <input data-key="moonshot" type="password" /></label>
-        <label>MiniMax        <input data-key="minimax" type="password" /></label>
-      </div>
-      <button id="save-keys" class="primary">Save keys</button>
+      <p class="hint">Keys and models are stored on this device only. Models are optional — leave empty to use the provider's default.</p>
+      <div id="keygrid" class="keygrid"></div>
+      <button id="save-keys" class="primary">Save</button>
     </section>
 
     <section class="panel hidden" data-pane="featherless">
       <p class="hint"><strong>Featherless.ai</strong> hosts hundreds of open-weight models behind one API. Choose <em>Personal</em> if you have your own subscription, or unlock the <em>Community</em> key by tipping the project.</p>
       <label class="radio"><input type="radio" name="fl" value="off" /> Off</label>
       <label class="radio"><input type="radio" name="fl" value="personal" /> Personal — paste your key</label>
-      <input id="fl-key" data-key="featherless" type="password" placeholder="featherless key" />
+      <input id="fl-key" type="password" placeholder="featherless key" />
       <label class="radio"><input type="radio" name="fl" value="community" /> Community key (donation-unlocked)</label>
       <a class="donate" id="donate" href="https://buymeacoffee.com/qrammarly" target="_blank" rel="noopener">Donate to unlock →</a>
       <button id="save-fl" class="primary">Save</button>

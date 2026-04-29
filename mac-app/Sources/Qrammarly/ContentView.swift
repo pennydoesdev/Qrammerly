@@ -30,14 +30,37 @@ final class CheckerVM: ObservableObject {
     @Published var suggestions: [Suggestion] = []
     @Published var modelsUsed: [String] = []
     @Published var isChecking = false
-    @Published var endpoint: String = "http://localhost:8787/v1/check"
+    @Published var endpoint: String = UserDefaults.standard.string(forKey: "qr.endpoint")
+        ?? "http://localhost:8787/v1/check"
     @Published var errorMessage: String?
     @Published var capturedFrom: String?  // bundle ID we grabbed text from
+
+    /// API keys keyed by adapter "client field" name (openai, anthropic, …).
+    /// NOTE: stored in UserDefaults for now. Production builds should move
+    /// these to Keychain — the API surface is the same.
+    @Published var keys: [String: String] =
+        (UserDefaults.standard.dictionary(forKey: "qr.keys") as? [String: String]) ?? [:]
+    @Published var modelOverrides: [String: String] =
+        (UserDefaults.standard.dictionary(forKey: "qr.models") as? [String: String]) ?? [:]
+    @Published var providerCatalog: [ProviderInfo] = []
 
     /// Caller for writing accepted fixes back to the source app.
     var writeBack: ((String) -> Bool)?
 
     private var debounceTask: Task<Void, Never>?
+
+    func saveSettings() {
+        UserDefaults.standard.set(endpoint, forKey: "qr.endpoint")
+        UserDefaults.standard.set(keys, forKey: "qr.keys")
+        UserDefaults.standard.set(modelOverrides, forKey: "qr.models")
+    }
+
+    func refreshCatalog() async {
+        let url = URL(string: endpoint) ?? URL(string: "http://localhost:8787/v1/check")!
+        let client = CheckerClient(endpoint: url)
+        let catalog = await client.fetchProviderCatalog()
+        if !catalog.isEmpty { self.providerCatalog = catalog }
+    }
 
     func scheduleCheck() {
         debounceTask?.cancel()
@@ -59,7 +82,7 @@ final class CheckerVM: ObservableObject {
         do {
             let url = URL(string: endpoint) ?? URL(string: "http://localhost:8787/v1/check")!
             let client = CheckerClient(endpoint: url)
-            let resp = try await client.check(snapshot)
+            let resp = try await client.check(snapshot, keys: keys, models: modelOverrides)
             self.suggestions = resp.suggestions
             self.modelsUsed = resp.models_used
             self.errorMessage = nil
@@ -353,6 +376,31 @@ private struct SettingsSheet: View {
     @EnvironmentObject var permissions: PermissionsModel
     @Environment(\.dismiss) private var dismiss
 
+    private let providerLabels: [String: String] = [
+        "openai": "OpenAI",
+        "anthropic": "Anthropic",
+        "google": "Google",
+        "llama": "Meta (Together)",
+        "mistral": "Mistral",
+        "cohere": "Cohere",
+        "deepseek": "DeepSeek",
+        "qwen": "Qwen",
+        "grok": "xAI (Grok)",
+        "perplexity": "Perplexity",
+        "kimi": "Moonshot (Kimi)",
+        "minimax": "MiniMax",
+        "featherless": "Featherless",
+    ]
+
+    /// Adapter name → key field name (mirrors the JS KEY_FIELD map).
+    private let keyFieldFor: [String: String] = [
+        "openai": "openai", "anthropic": "anthropic", "google": "google",
+        "llama": "together", "mistral": "mistral", "cohere": "cohere",
+        "deepseek": "deepseek", "qwen": "qwen", "grok": "xai",
+        "perplexity": "perplexity", "kimi": "moonshot",
+        "minimax": "minimax", "featherless": "featherless",
+    ]
+
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Settings").font(Brand.font(15, weight: .heavy))
@@ -361,6 +409,30 @@ private struct SettingsSheet: View {
                 Text("API endpoint").font(Brand.font(11, weight: .semibold)).foregroundColor(.secondary)
                 TextField("http://localhost:8787/v1/check", text: $vm.endpoint)
                     .textFieldStyle(.roundedBorder)
+            }
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Text("Keys & models").font(Brand.font(11, weight: .semibold)).foregroundColor(.secondary)
+                    Spacer()
+                    Button("Refresh") {
+                        Task { await vm.refreshCatalog() }
+                    }
+                    .controlSize(.small)
+                }
+                Text("Models are optional — leave empty to use the provider's default.")
+                    .font(Brand.font(10)).foregroundColor(.secondary)
+
+                ScrollView {
+                    VStack(spacing: 8) {
+                        ForEach(vm.providerCatalog) { p in
+                            providerRow(p)
+                        }
+                    }
+                }
+                .frame(maxHeight: 280)
             }
 
             Divider()
@@ -387,11 +459,68 @@ private struct SettingsSheet: View {
 
             HStack {
                 Spacer()
-                Button("Done") { dismiss() }
-                    .buttonStyle(.borderedProminent).tint(Brand.magenta)
+                Button("Done") {
+                    vm.saveSettings()
+                    dismiss()
+                }
+                .buttonStyle(.borderedProminent).tint(Brand.magenta)
             }
         }
         .padding(20)
-        .frame(width: 420)
+        .frame(width: 520)
+        .task { await vm.refreshCatalog() }
+    }
+
+    @ViewBuilder
+    private func providerRow(_ p: ProviderInfo) -> some View {
+        let keyField = keyFieldFor[p.name] ?? p.name
+        let label = providerLabels[p.name] ?? p.name
+        HStack(alignment: .center, spacing: 8) {
+            Text(label)
+                .font(Brand.font(11, weight: .semibold))
+                .frame(width: 110, alignment: .leading)
+            SecureField("API key", text: keyBinding(keyField))
+                .textFieldStyle(.roundedBorder)
+            modelPicker(provider: p)
+        }
+    }
+
+    @ViewBuilder
+    private func modelPicker(provider p: ProviderInfo) -> some View {
+        let binding = modelBinding(p.name)
+        HStack(spacing: 4) {
+            TextField(p.default, text: binding).textFieldStyle(.roundedBorder)
+            Menu {
+                Button("Default (\(p.default))") {
+                    vm.modelOverrides[p.name] = nil
+                }
+                Divider()
+                ForEach(p.suggestions, id: \.self) { m in
+                    Button(m) { vm.modelOverrides[p.name] = m }
+                }
+            } label: {
+                Image(systemName: "chevron.down")
+            }
+            .menuStyle(.borderlessButton)
+            .frame(width: 28)
+        }
+    }
+
+    private func keyBinding(_ field: String) -> Binding<String> {
+        Binding(
+            get: { vm.keys[field] ?? "" },
+            set: { v in
+                if v.isEmpty { vm.keys.removeValue(forKey: field) } else { vm.keys[field] = v }
+            }
+        )
+    }
+
+    private func modelBinding(_ provider: String) -> Binding<String> {
+        Binding(
+            get: { vm.modelOverrides[provider] ?? "" },
+            set: { v in
+                if v.isEmpty { vm.modelOverrides.removeValue(forKey: provider) } else { vm.modelOverrides[provider] = v }
+            }
+        )
     }
 }

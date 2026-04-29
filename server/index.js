@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { ADAPTERS } from "./adapters.js";
+import { ADAPTERS, modelFor } from "./adapters.js";
 import { aggregate } from "./aggregate.js";
 import { record, recordApplied } from "./corpus.js";
 import { textStats } from "./stats.js";
@@ -28,7 +28,19 @@ app.get("/v1/health", (_req, res) => {
     env_enabled: ADAPTERS.filter((a) => a.keyFor({ keys: {} })).map((a) => a.name),
     providers: ADAPTERS.map((a) => a.name),
     auth_enabled: !!auth,
-    version: "0.2.0",
+    version: "0.3.0",
+  });
+});
+
+// Lists each provider's default model and a curated set of popular
+// alternatives. Clients use this to populate their per-provider model picker.
+app.get("/v1/models", (_req, res) => {
+  res.json({
+    providers: ADAPTERS.map((a) => ({
+      name: a.name,
+      default: a.defaultModel,
+      suggestions: a.suggestedModels || [],
+    })),
   });
 });
 
@@ -39,10 +51,10 @@ app.post("/v1/check", async (req, res) => {
   if (!text.trim()) return res.json({ models_used: [], suggestions: [] });
 
   const active = ADAPTERS
-    .map((a) => ({ a, key: a.keyFor(req.body || {}) }))
+    .map((a) => ({ a, key: a.keyFor(req.body || {}), model: modelFor(a, req.body || {}) }))
     .filter((x) => !!x.key);
 
-  const results = await Promise.allSettled(active.map((x) => x.a.run(text, x.key)));
+  const results = await Promise.allSettled(active.map((x) => x.a.run(text, x.key, x.model)));
 
   const perModel = [];
   for (let i = 0; i < active.length; i++) {

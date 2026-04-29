@@ -43,17 +43,13 @@ function pickAdapter(req) {
 export async function detectTone(text, req) {
   const picked = pickAdapter(req || {});
   if (!picked) return { tones: [], primary: null, summary: "" };
-
-  // We hijack the adapter's chat completions helper by passing a synthetic
-  // prompt — every adapter's run() uses the prompt module, so we re-issue with
-  // a temporary system message via a tiny override.
-  return runWithSystem(picked, text, TONE_SYSTEM, parseTone);
+  return runWithSystem(picked, text, TONE_SYSTEM, parseTone, req || {});
 }
 
 export async function proofreadForGoals(text, goals, req) {
   const picked = pickAdapter(req || {});
   if (!picked) return { suggestions: [] };
-  return runWithSystem(picked, text, GOAL_SYSTEM(goals || {}), parseSuggestions);
+  return runWithSystem(picked, text, GOAL_SYSTEM(goals || {}), parseSuggestions, req || {});
 }
 
 function parseTone(json) {
@@ -72,21 +68,21 @@ function parseSuggestions(json) {
 // Calls a generic chat completion against the picked adapter. We can't reuse
 // the adapter.run() signature because that one's bound to the proofread prompt
 // — so we duplicate the minimum HTTP wiring for the two providers we prefer.
-async function runWithSystem(picked, text, system, parse) {
+async function runWithSystem(picked, text, system, parse, req) {
   const { a, key } = picked;
+  const override = req?.models?.[a.name];
   if (a.name === "anthropic") {
-    return parse(await chatAnthropic(key, system, text));
+    return parse(await chatAnthropic(key, system, text, override));
   }
   if (a.name === "google") {
-    return parse(await chatGoogle(key, system, text));
+    return parse(await chatGoogle(key, system, text, override));
   }
-  // OpenAI-compatible providers — most common case.
-  return parse(await chatOpenAICompat(a.name, key, system, text));
+  return parse(await chatOpenAICompat(a.name, key, system, text, override));
 }
 
-async function chatOpenAICompat(name, key, system, text) {
+async function chatOpenAICompat(name, key, system, text, modelOverride) {
   const url = ENDPOINTS[name] || ENDPOINTS.openai;
-  const model = MODELS[name] || MODELS.openai;
+  const model = modelOverride || MODELS[name] || MODELS.openai;
   const r = await fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
@@ -101,12 +97,12 @@ async function chatOpenAICompat(name, key, system, text) {
   return safeJson(j?.choices?.[0]?.message?.content);
 }
 
-async function chatAnthropic(key, system, text) {
+async function chatAnthropic(key, system, text, modelOverride) {
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
-      model: "claude-sonnet-4-6", max_tokens: 512, system,
+      model: modelOverride || "claude-sonnet-4-6", max_tokens: 512, system,
       messages: [{ role: "user", content: text }],
     }),
   });
@@ -115,9 +111,10 @@ async function chatAnthropic(key, system, text) {
   return safeJson(j?.content?.[0]?.text);
 }
 
-async function chatGoogle(key, system, text) {
+async function chatGoogle(key, system, text, modelOverride) {
+  const m = modelOverride || "gemini-1.5-pro";
   const r = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${key}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${key}`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },

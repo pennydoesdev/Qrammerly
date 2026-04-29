@@ -6,19 +6,20 @@
 const DEFAULT_ENDPOINT = "http://localhost:8787/v1/check";
 
 async function getConfig() {
-  const { endpoint, keys } = await chrome.storage.local.get(["endpoint", "keys"]);
+  const { endpoint, keys, models } = await chrome.storage.local.get(["endpoint", "keys", "models"]);
   return {
     endpoint: endpoint || DEFAULT_ENDPOINT,
     keys: keys || {},
+    models: models || {},
   };
 }
 
 async function postCheck(text) {
-  const { endpoint, keys } = await getConfig();
+  const { endpoint, keys, models } = await getConfig();
   const r = await fetch(endpoint, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ text, keys }),
+    body: JSON.stringify({ text, keys, models }),
   });
   if (!r.ok) throw new Error(`HTTP ${r.status}`);
   return r.json();

@@ -100,24 +100,24 @@ button.primary {
 button.primary:hover { filter: brightness(1.05); }
 
 .keygrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
+  display: flex; flex-direction: column;
+  gap: 10px;
   margin-bottom: 12px;
-  max-height: 320px;
+  max-height: 360px;
   overflow-y: auto;
   padding-right: 4px;
 }
-.keygrid label {
+.key-row {
   display: grid;
-  grid-template-columns: 130px 1fr;
+  grid-template-columns: 110px 1fr;
   align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #4b5563;
+  gap: 10px;
 }
-.keygrid input { padding: 7px 9px; font-size: 12px; }
+.key-row-label { font-size: 11px; font-weight: 700; color: #4b5563; }
+.key-row-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.key-row-fields input {
+  padding: 7px 9px; font-size: 11px;
+}
 
 .field { display: block; font-size: 11px; color: #6b7280; font-weight: 600; }
 .field input { margin-top: 6px; }
