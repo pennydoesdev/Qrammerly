@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>How to use Qrammerly</title>
+  <meta name="description" content="Walkthrough of every Qrammerly feature: paragraph review, model picker, BYOK, tone, goals, stats, history, the Mac app and the Chrome extension." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="/">
+      <span class="brand-logo">Q</span>
+      <span class="brand-name">Qrammerly</span>
+    </a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/install.html">Install</a>
+      <a href="/how-to.html">How to</a>
+      <a href="/#pricing">Pricing</a>
+      <a class="github-btn" href="https://github.com/pennydoesdev/Qrammerly" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+          <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        GitHub
+      </a>
+    </nav>
+  </header>
+
+  <section class="hero install-hero">
+    <h1>How to <span class="grad">use Qrammerly</span>.</h1>
+    <p class="lede">Every feature, in the order you'll meet them. Open source — copy what you like, send a PR if you improve it.</p>
+  </section>
+
+  <section class="how">
+    <div class="how-grid">
+
+      <article class="how-card" id="paste">
+        <h2><span class="dot dot-magenta"></span>1. Paste or capture text</h2>
+        <p>You can give Qrammerly text three ways:</p>
+        <ul>
+          <li><strong>Browser extension</strong> — type in any textarea/input/contenteditable and it automatically proofreads the paragraph your caret is in.</li>
+          <li><strong>Popup widget</strong> — click the Q icon in your toolbar, paste a draft into the textarea, hit <strong>Check</strong>.</li>
+          <li><strong>Mac app</strong> — focus any text in any app (Word, Pages, Outlook, Mail, Notes, Slack, …) and press <kbd>⌥⌘G</kbd>. The Mac app reads the focused field via Accessibility and runs the same review.</li>
+        </ul>
+      </article>
+
+      <article class="how-card" id="paragraph">
+        <h2><span class="dot dot-flame"></span>2. Review one paragraph at a time</h2>
+        <p>Qrammerly never bulk-rewrites your document. The reviewer steps through paragraphs sequentially:</p>
+        <ul>
+          <li><strong>Prev / Next paragraph</strong> moves the cursor through your draft.</li>
+          <li>The current paragraph is shown inline with every issue underlined in the brand colours (magenta = spelling, flame = grammar, sun = punctuation, sky = clarity, iris = style).</li>
+          <li>You decide when to move on.</li>
+        </ul>
+      </article>
+
+      <article class="how-card" id="apply">
+        <h2><span class="dot dot-iris"></span>3. Accept fixes one by one</h2>
+        <p>Each issue gets a card with the original, the suggested replacement, and a one-sentence explanation:</p>
+        <ul>
+          <li><strong>Apply</strong> rewrites just that span.</li>
+          <li><strong>Skip</strong> moves on without touching it.</li>
+          <li><strong>Prev / Next</strong> walks the issue list.</li>
+          <li>Click any underlined word in the preview to jump straight to it.</li>
+        </ul>
+        <p class="muted">Confidence is shown as <code>92% · 11/12</code> — the share of the twelve models that flagged this exact span.</p>
+      </article>
+
+      <article class="how-card" id="byok">
+        <h2><span class="dot dot-sky"></span>4. Bring your own keys</h2>
+        <p>Open the extension popup → <strong>Keys &amp; Models</strong>. Paste keys for any provider you have. Empty fields are skipped — only providers with keys are queried.</p>
+        <p class="muted">Keys are stored in <code>chrome.storage.local</code> on your device. They're sent to the API with each request and never persisted server-side.</p>
+        <p>The Mac app stores keys in <code>UserDefaults</code> (Keychain is on the roadmap).</p>
+      </article>
+
+      <article class="how-card" id="byom">
+        <h2><span class="dot dot-sun"></span>5. Pick your own models</h2>
+        <p>Right next to each provider's key field there's a model picker. Type any model name the provider supports, or pick from the autocompletion list. Empty falls back to the provider's default.</p>
+        <p class="muted">Examples: <code>gpt-4o-mini</code> for cheap OpenAI, <code>claude-haiku-4-5-20251001</code> for fast Anthropic, <code>gemini-2.5-pro</code> for richer Google.</p>
+      </article>
+
+      <article class="how-card" id="cache">
+        <h2><span class="dot dot-magenta"></span>6. Cache makes it free-er</h2>
+        <p>Three layers of cache mean re-reviewing the same paragraph never costs you tokens twice:</p>
+        <ul>
+          <li><strong>Browser</strong> — sha256(paragraph) → response, 24 h.</li>
+          <li><strong>Server</strong> — same hash, 1 h LRU on the Node server, <code>caches.default</code> on Cloudflare Workers.</li>
+          <li>Cached responses come back marked <code>cached: true</code>.</li>
+        </ul>
+      </article>
+
+      <article class="how-card" id="tone">
+        <h2><span class="dot dot-flame"></span>7. Tone, goals, stats</h2>
+        <p>Beyond grammar, the popup widget exposes:</p>
+        <ul>
+          <li><strong>Tone</strong> (<code>POST /v1/tone</code>) — labels like confident / friendly / formal / urgent and a 1-sentence summary.</li>
+          <li><strong>Goals</strong> (<code>POST /v1/goals</code>) — proofreads against <code>{ audience, formality, intent, domain }</code>.</li>
+          <li><strong>Stats</strong> (<code>POST /v1/stats</code>) — words, sentences, Flesch reading ease + grade, vocabulary diversity, reading time.</li>
+        </ul>
+      </article>
+
+      <article class="how-card" id="account">
+        <h2><span class="dot dot-iris"></span>8. Optional account &amp; history</h2>
+        <p>Sign up on the website to sync accepted corrections into your private dashboard:</p>
+        <ul>
+          <li>Total corrections, active days, average confidence.</li>
+          <li>By-type breakdown (grammar / spelling / punctuation / clarity / style).</li>
+          <li>The last 7 days of activity.</li>
+        </ul>
+        <p class="muted">Optional. The extensions and Mac app work fully without an account.</p>
+      </article>
+
+      <article class="how-card" id="mac">
+        <h2><span class="dot dot-sky"></span>9. Mac app &amp; permissions</h2>
+        <p>The Mac app uses macOS Accessibility to read and write the focused text in any app. On first launch, you'll be prompted for:</p>
+        <ul>
+          <li><strong>Accessibility</strong> — required for any read/write to focused text.</li>
+          <li><strong>Automation</strong> — used as a fallback for richer integration with Word, Pages, Outlook, Mail.</li>
+        </ul>
+        <p>Default global hotkey: <kbd>⌥</kbd><kbd>⌘</kbd><kbd>G</kbd>. After applying a fix, the Mac app writes the corrected text back to the source app.</p>
+      </article>
+
+      <article class="how-card" id="corpus">
+        <h2><span class="dot dot-sun"></span>10. The training corpus</h2>
+        <p>Every accepted correction is appended to a JSONL corpus tagged with detected programming language and natural language. We will eventually fine-tune our own internal model from it, hosted on Hugging Face. Self-hosters: the corpus stays on your hardware (R2 bucket on Workers, JSONL files on Docker).</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-card">
+      <h2>This whole thing is open source</h2>
+      <p>Star it, fork it, file issues, send PRs. The whole stack — server, worker, extensions, Mac app, website — is in one repo.</p>
+      <a class="btn primary" href="https://github.com/pennydoesdev/Qrammerly" target="_blank" rel="noopener">Open the repo →</a>
+      <a class="btn ghost" href="https://github.com/pennydoesdev/Qrammerly/issues/new" target="_blank" rel="noopener">File an issue</a>
+      <a class="btn ghost" href="https://github.com/pennydoesdev/Qrammerly/fork" target="_blank" rel="noopener">Fork &amp; PR</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© Qrammerly</span>
+    <span>Open source · MIT</span>
+    <span>Made with Sun · Flame · Magenta · Iris · Sky</span>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Install Qrammerly — without the stores</title>
+  <meta name="description" content="Install Qrammerly directly without waiting for Chrome Web Store / Add-ons / App Store approval. Open source. Self-distributable." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="/">
+      <span class="brand-logo">Q</span>
+      <span class="brand-name">Qrammerly</span>
+    </a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/install.html">Install</a>
+      <a href="/how-to.html">How to</a>
+      <a href="/#pricing">Pricing</a>
+      <a class="github-btn" href="https://github.com/pennydoesdev/Qrammerly" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+          <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        GitHub
+      </a>
+    </nav>
+  </header>
+
+  <section class="hero install-hero">
+    <h1>Install <span class="grad">without the stores</span>.</h1>
+    <p class="lede">
+      Qrammerly is open source and you can install every piece directly — no
+      Chrome Web Store, no AMO, no App Store. Pick your platform below.
+    </p>
+    <div class="chips">
+      <span class="chip">Chrome</span>
+      <span class="chip">Edge</span>
+      <span class="chip">Firefox</span>
+      <span class="chip">Safari</span>
+      <span class="chip">macOS</span>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="how-grid">
+
+      <article class="how-card" id="chrome">
+        <h2><span class="dot dot-magenta"></span>Chrome</h2>
+        <p class="muted">Works on stock Chrome with Developer Mode enabled. No store account needed.</p>
+        <ol>
+          <li>Download <a href="https://github.com/pennydoesdev/Qrammerly/archive/refs/heads/main.zip">the repo zip</a> and unzip it. (Or <code>git clone</code>.)</li>
+          <li>Open <code>chrome://extensions</code>.</li>
+          <li>Toggle <strong>Developer mode</strong> on (top right).</li>
+          <li>Click <strong>Load unpacked</strong> and select the <code>chrome-extension/</code> folder.</li>
+          <li>Pin the Q icon to the toolbar.</li>
+        </ol>
+        <p class="muted">Chrome shows "extension was loaded unpacked" once on startup — that's expected.</p>
+      </article>
+
+      <article class="how-card" id="edge">
+        <h2><span class="dot dot-flame"></span>Microsoft Edge</h2>
+        <p class="muted">Edge is Chromium so the steps are nearly identical.</p>
+        <ol>
+          <li>Download or clone the repo.</li>
+          <li>Open <code>edge://extensions</code>.</li>
+          <li>Toggle <strong>Developer mode</strong>.</li>
+          <li><strong>Load unpacked</strong> → select <code>edge-extension/</code>.</li>
+        </ol>
+      </article>
+
+      <article class="how-card" id="firefox">
+        <h2><span class="dot dot-iris"></span>Firefox</h2>
+        <p class="muted">Two paths: temporary (instant, vanishes on restart) or signed XPI (permanent).</p>
+        <h3>Temporary install</h3>
+        <ol>
+          <li>Open <code>about:debugging#/runtime/this-firefox</code>.</li>
+          <li>Click <strong>Load Temporary Add-on…</strong></li>
+          <li>Select <code>firefox-extension/manifest.json</code>.</li>
+        </ol>
+        <h3>Permanent install (signed XPI)</h3>
+        <p class="muted">For a permanent install Firefox requires the add-on to be signed by Mozilla, but you don't need to publish it on AMO — choose <em>self-distribution</em> when you submit. We ship signed XPIs on the GitHub Releases page; drop the file onto Firefox to install.</p>
+      </article>
+
+      <article class="how-card" id="safari">
+        <h2><span class="dot dot-sky"></span>Safari</h2>
+        <p class="muted">Safari is the strictest. Two options:</p>
+        <h3>Option A — Run unsigned during development</h3>
+        <ol>
+          <li>Safari → Settings → Advanced → enable <strong>Show Develop menu</strong>.</li>
+          <li>Develop → <strong>Allow Unsigned Extensions</strong> (re-prompts every Safari restart).</li>
+          <li>Build the Xcode wrapper from <code>safari-extension/Resources/</code> per the README in that folder, then run it once from Xcode.</li>
+          <li>Settings → Extensions → enable Qrammerly.</li>
+        </ol>
+        <h3>Option B — Notarize the host app</h3>
+        <p class="muted">Notarization is an <em>automated</em> Apple security scan, not the App Store editorial review. After notarization, Safari runs the extension on any Mac forever. We ship a notarized <code>.dmg</code> on GitHub Releases.</p>
+      </article>
+
+      <article class="how-card" id="mac">
+        <h2><span class="dot dot-sun"></span>macOS app</h2>
+        <p class="muted">Distributable directly as a <code>.dmg</code> — no App Store needed.</p>
+        <h3>From Releases</h3>
+        <ol>
+          <li>Download <code>Qrammerly.dmg</code> from <a href="https://github.com/pennydoesdev/Qrammerly/releases">GitHub Releases</a>.</li>
+          <li>Drag <strong>Qrammerly.app</strong> into Applications.</li>
+          <li>If macOS shows a Gatekeeper warning, right-click the app → <strong>Open</strong> → confirm. (Notarized builds skip this entirely.)</li>
+          <li>Grant <strong>Accessibility</strong> on first launch.</li>
+        </ol>
+        <h3>From source</h3>
+        <pre><code>cd mac-app
+swift run</code></pre>
+      </article>
+
+      <article class="how-card" id="self-host">
+        <h2><span class="dot dot-magenta"></span>Self-host the API (optional)</h2>
+        <p class="muted">By default everything talks to <code>qrammerly.com/v1/*</code>. Run your own backend if you'd rather keep keys and corpus on your hardware.</p>
+        <pre><code># Cloudflare Workers (free tier, recommended)
+cd worker
+npm install
+npx wrangler login
+npm run deploy
+
+# Or self-hosted Docker
+docker compose up --build</code></pre>
+        <p class="muted">Then change the API endpoint in the extension popup's Settings tab.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-card">
+      <h2>Open source — please contribute</h2>
+      <p>Qrammerly is MIT-licensed. Issues, PRs, and stars all genuinely help.</p>
+      <a class="btn primary" href="https://github.com/pennydoesdev/Qrammerly" target="_blank" rel="noopener">View on GitHub →</a>
+      <a class="btn ghost" href="https://github.com/pennydoesdev/Qrammerly/issues/new" target="_blank" rel="noopener">File an issue</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© Qrammerly</span>
+    <span>Open source · MIT</span>
+    <span>Made with Sun · Flame · Magenta · Iris · Sky</span>
+  </footer>
+</body>
+</html>
