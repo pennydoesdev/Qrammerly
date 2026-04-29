@@ -1,0 +1,36 @@
+name = "qrammerly-api"
+main = "src/index.js"
+compatibility_date = "2025-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Production routes — Pages serves the marketing site at qrammerly.com,
+# this Worker handles all /v1/* paths on the same hostname.
+routes = [
+  { pattern = "qrammerly.com/v1/*", zone_name = "qrammerly.com" },
+  { pattern = "www.qrammerly.com/v1/*", zone_name = "qrammerly.com" }
+]
+
+# D1: SQLite-compatible store for auth, history, and stats. Run
+#   npx wrangler d1 create qrammerly-auth
+# locally and paste the returned database_id below.
+[[d1_databases]]
+binding = "DB"
+database_name = "qrammerly-auth"
+database_id = "REPLACE_WITH_D1_ID"
+
+# R2: append-only training corpus. One JSON object per check at
+# corpus/<YYYY-MM-DD>/<uuid>.json.
+[[r2_buckets]]
+binding = "CORPUS"
+bucket_name = "qrammerly-corpus"
+
+# Provider keys & community Featherless token. Each is set once via
+#   npx wrangler secret put OPENAI_API_KEY
+# Per-request BYOK still wins over env values.
+[vars]
+JWT_TTL_SECONDS = "604800"  # 7 days
+
+# Observability — uncomment after creating an Analytics Engine dataset
+# [[analytics_engine_datasets]]
+# binding = "ANALYTICS"
+# dataset = "qrammerly_events"

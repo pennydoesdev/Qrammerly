@@ -1,4 +1,4 @@
-# Qrammarly — Firefox
+# Qrammerly — Firefox
 
 Firefox supports WebExtensions MV3 from version 115 onward. The same content
 script and popup work via the `chrome.*` API namespace (Firefox aliases it).

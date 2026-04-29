@@ -1,4 +1,4 @@
-# Qrammarly — Safari
+# Qrammerly — Safari
 
 Safari Web Extensions are bundled and signed inside a host macOS / iOS app, so
 the layout here is split into two parts:
@@ -16,18 +16,18 @@ Apple ships a converter that turns a web extension into a Safari project:
 xcrun safari-web-extension-converter \
   Resources/ \
   --project-location . \
-  --bundle-identifier com.pennydoesdev.qrammarly \
-  --app-name Qrammarly \
+  --bundle-identifier com.pennydoesdev.qrammerly \
+  --app-name Qrammerly \
   --no-prompt --force --copy-resources
 ```
 
-This produces `Qrammarly.xcodeproj`. Open it in Xcode and:
+This produces `Qrammerly.xcodeproj`. Open it in Xcode and:
 
-1. Select the **Qrammarly Extension** target → Signing & Capabilities → set your
+1. Select the **Qrammerly Extension** target → Signing & Capabilities → set your
    team.
 2. Build & run the host app once. macOS adds the extension to *System Settings →
    Extensions → Safari Extensions*; toggle it on.
-3. In Safari → Settings → Extensions, enable **Qrammarly** and grant access to
+3. In Safari → Settings → Extensions, enable **Qrammerly** and grant access to
    the websites you want it to proofread.
 
 ## Distributing

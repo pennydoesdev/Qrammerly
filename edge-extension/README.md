@@ -1,4 +1,4 @@
-# Qrammarly — Microsoft Edge
+# Qrammerly — Microsoft Edge
 
 Edge is Chromium-based and consumes the same MV3 manifest as Chrome.
 

@@ -162,7 +162,7 @@ private struct TitleBar: View {
             .frame(width: 32, height: 32)
 
             VStack(alignment: .leading, spacing: 0) {
-                Text("Qrammarly").font(Brand.font(14, weight: .heavy))
+                Text("Qrammerly").font(Brand.font(14, weight: .heavy))
                 Text("⌥⌘G to grab focused text")
                     .font(Brand.font(10, weight: .semibold))
                     .foregroundColor(.secondary)
@@ -195,7 +195,7 @@ private struct PermissionBanner: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Accessibility permission required")
                     .font(Brand.font(12, weight: .bold)).foregroundColor(.white)
-                Text("Qrammarly needs Accessibility to read text from Word, Pages, Outlook, Mail and other apps.")
+                Text("Qrammerly needs Accessibility to read text from Word, Pages, Outlook, Mail and other apps.")
                     .font(Brand.font(11)).foregroundColor(.white.opacity(0.85))
             }
             Spacer()

@@ -7,7 +7,7 @@ import Carbon
 /// focused text in the frontmost app and run a check.
 @MainActor
 final class HotkeyController: ObservableObject {
-    static let triggered = Notification.Name("QrammarlyHotkeyTriggered")
+    static let triggered = Notification.Name("QrammerlyHotkeyTriggered")
 
     private var ref: EventHotKeyRef?
 

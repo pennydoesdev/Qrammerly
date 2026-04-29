@@ -2,12 +2,12 @@ import SwiftUI
 import AppKit
 
 @main
-struct QrammarlyApp: App {
+struct QrammerlyApp: App {
     @StateObject private var permissions = PermissionsModel()
     @StateObject private var hotkey = HotkeyController()
 
     var body: some Scene {
-        WindowGroup("Qrammarly") {
+        WindowGroup("Qrammerly") {
             ContentView()
                 .environmentObject(permissions)
                 .environmentObject(hotkey)

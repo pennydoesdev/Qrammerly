@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Qrammarly",
+  "name": "Qrammerly",
   "version": "0.2.0",
   "description": "Multi-model AI proofreading inside any text field. BYOK + community Featherless option.",
   "browser_specific_settings": {
     "gecko": {
-      "id": "qrammarly@pennydoesdev.com",
+      "id": "qrammerly@pennydoesdev.com",
       "strict_min_version": "115.0"
     }
   },
@@ -22,6 +22,6 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Qrammarly"
+    "default_title": "Qrammerly"
   }
 }

@@ -169,5 +169,5 @@ if (auth) {
 
 const port = Number(process.env.PORT || 8787);
 app.listen(port, () => {
-  console.log(`Qrammarly server on :${port} (${ADAPTERS.length} providers; BYOK${auth ? "; auth on" : ""})`);
+  console.log(`Qrammerly server on :${port} (${ADAPTERS.length} providers; BYOK${auth ? "; auth on" : ""})`);
 });

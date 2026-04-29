@@ -15,7 +15,7 @@ const $$ = (s) => [...document.querySelectorAll(s)];
 const escape = (s) => String(s).replace(/[&<>"']/g, (c) =>
   ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 
-const TOKEN_KEY = "qrammarly.token";
+const TOKEN_KEY = "qrammerly.token";
 const token = () => localStorage.getItem(TOKEN_KEY);
 const setToken = (t) => t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY);
 

@@ -4,11 +4,11 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleName</key>
-  <string>Qrammarly</string>
+  <string>Qrammerly</string>
   <key>CFBundleDisplayName</key>
-  <string>Qrammarly</string>
+  <string>Qrammerly</string>
   <key>CFBundleIdentifier</key>
-  <string>com.pennydoesdev.qrammarly</string>
+  <string>com.pennydoesdev.qrammerly</string>
   <key>CFBundleVersion</key>
   <string>0.2.0</string>
   <key>CFBundleShortVersionString</key>
@@ -21,10 +21,10 @@
     these strings in the consent prompt and in System Settings.
   -->
   <key>NSAccessibilityUsageDescription</key>
-  <string>Qrammarly reads the text you're editing in the frontmost app so it can suggest corrections, then writes the accepted fix back. Nothing is read until you press the global hotkey.</string>
+  <string>Qrammerly reads the text you're editing in the frontmost app so it can suggest corrections, then writes the accepted fix back. Nothing is read until you press the global hotkey.</string>
 
   <key>NSAppleEventsUsageDescription</key>
-  <string>Qrammarly uses AppleScript to talk to Microsoft Word, Apple Pages, and Microsoft Outlook for richer document access when the standard Accessibility APIs aren't enough.</string>
+  <string>Qrammerly uses AppleScript to talk to Microsoft Word, Apple Pages, and Microsoft Outlook for richer document access when the standard Accessibility APIs aren't enough.</string>
 
   <!--
     Apps we explicitly script. macOS Mojave+ requires entries here for each

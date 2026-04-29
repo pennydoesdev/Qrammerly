@@ -1,4 +1,4 @@
-# Qrammarly
+# Qrammerly
 
 A multi-model AI proofreader. **Thirteen** language models inspect your text in
 parallel and suggestions are ranked by cross-model consensus.
@@ -17,15 +17,16 @@ Google Docs**. The backend is **Dockerised** and load-balanceable, with
 
 | Path                  | What it is                                                        |
 | --------------------- | ----------------------------------------------------------------- |
-| `server/`             | Node aggregator, BYOK, auth, history, stats, tone, goals, corpus  |
+| `worker/`             | **Production**: Cloudflare Worker (Hono) + D1 + R2 — the deployed `/v1/*` API at `qrammerly.com` |
+| `server/`             | Self-host alternative: Node aggregator with same API surface      |
 | `chrome-extension/`   | Chrome MV3 extension                                              |
 | `edge-extension/`     | Microsoft Edge (MV3, Chromium-compatible)                         |
 | `firefox-extension/`  | Firefox (MV3, Gecko manifest)                                     |
 | `safari-extension/`   | Safari Web Extension Resources + Xcode wrapping notes             |
 | `mac-app/`            | SwiftUI macOS app w/ ⌥⌘G hotkey, AX/AppleScript text capture     |
-| `website/`            | Public-facing landing page + try-widget + dashboard               |
-| `infra/`              | nginx load-balancer config                                        |
-| `docker-compose.yml`  | 3-replica backend + nginx in front                                |
+| `website/`            | Public-facing landing page + try-widget + dashboard (Cloudflare Pages) |
+| `infra/`              | nginx LB config (only used by `server/` self-host route)          |
+| `docker-compose.yml`  | 3-replica self-host backend + nginx                               |
 
 ## Brand
 
@@ -121,14 +122,53 @@ Roll the daily JSONLs into one HF-friendly file:
 
 ```bash
 node server/scripts/export-hf.js
-huggingface-cli upload <user>/qrammarly-corrections corpus/dataset.jsonl
+huggingface-cli upload <user>/qrammerly-corrections corpus/dataset.jsonl
 ```
 
 The schema is intentionally flat raw text so a future internal model
-(`<user>/qrammarly-internal`) can be fine-tuned via
+(`<user>/qrammerly-internal`) can be fine-tuned via
 `datasets.load_dataset("json", data_files="dataset.jsonl")` directly.
 
-## Deploying with Docker
+## Deploying
+
+### Production: Cloudflare Workers + Pages (qrammerly.com)
+
+The deployed stack is one Worker + one Pages project on the same hostname:
+
+```bash
+# 1. One-time setup
+cd worker
+npm install
+npx wrangler login
+
+# Create the D1 database and paste the returned database_id into wrangler.toml.
+npx wrangler d1 create qrammerly-auth
+npx wrangler d1 execute qrammerly-auth --file=schema.sql
+
+# Create the R2 bucket for the training corpus.
+npx wrangler r2 bucket create qrammerly-corpus
+
+# Set provider keys (each is optional; missing ones are skipped).
+for k in OPENAI ANTHROPIC GOOGLE TOGETHER MISTRAL COHERE DEEPSEEK QWEN \
+         XAI PERPLEXITY MOONSHOT MINIMAX FEATHERLESS_COMMUNITY ; do
+  npx wrangler secret put ${k}_API_KEY
+done
+npx wrangler secret put AUTH_SECRET   # any random string
+
+# 2. Deploy the API
+npm run deploy
+
+# 3. Deploy the website to Cloudflare Pages
+#    Dashboard → Workers & Pages → Create → Pages → Connect Git
+#    Build output: website/   (no build command needed)
+#    Custom domain: qrammerly.com
+```
+
+The Worker is bound to the routes `qrammerly.com/v1/*` and `www.qrammerly.com/v1/*`,
+so `/v1/check` is served by the Worker and everything else by Pages — same origin,
+no CORS dance.
+
+### Self-host alternative: Docker
 
 ```bash
 docker compose up --build

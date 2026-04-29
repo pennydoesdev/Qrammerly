@@ -1,4 +1,4 @@
-# Qrammarly — Website
+# Qrammerly — Website
 
 Static landing page + try-it widget + auth dashboard. No build step.
 

@@ -1,4 +1,4 @@
-# Qrammarly Mac
+# Qrammerly Mac
 
 SwiftUI app with a frosted background, brand gradient title bar, side
 suggestions pane, and a global hotkey that grabs the focused text from the
@@ -26,12 +26,12 @@ You can also grant it preemptively from the Settings sheet inside the app.
 | Network (client)     | Talking to your local aggregator and provider APIs |
 
 Both usage rationales live in `Info.plist`; entitlements live in
-`Qrammarly.entitlements`.
+`Qrammerly.entitlements`.
 
 ## Hotkey
 
 <kbd>⌥</kbd><kbd>⌘</kbd><kbd>G</kbd> — grab focused text, check, show
-suggestions. After applying a fix Qrammarly writes the corrected text back to
+suggestions. After applying a fix Qrammerly writes the corrected text back to
 the source app via Accessibility (or AppleScript for Word/Pages/Outlook/Mail).
 
 ## App compatibility
