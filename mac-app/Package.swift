@@ -2,15 +2,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "Qrammerly",
+    name: "Qrammarly",
     platforms: [.macOS(.v13)],
     products: [
-        .executable(name: "Qrammerly", targets: ["Qrammerly"])
+        .executable(name: "Qrammarly", targets: ["Qrammarly"])
     ],
     targets: [
         .executableTarget(
-            name: "Qrammerly",
-            path: "Sources/Qrammerly"
+            name: "Qrammarly",
+            path: "Sources/Qrammarly",
+            resources: [
+                .copy("../../Info.plist"),
+                .copy("../../Qrammarly.entitlements")
+            ]
         )
     ]
 )

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleName</key>
+  <string>Qrammarly</string>
+  <key>CFBundleDisplayName</key>
+  <string>Qrammarly</string>
+  <key>CFBundleIdentifier</key>
+  <string>com.pennydoesdev.qrammarly</string>
+  <key>CFBundleVersion</key>
+  <string>0.2.0</string>
+  <key>CFBundleShortVersionString</key>
+  <string>0.2.0</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>13.0</string>
+
+  <!--
+    User-facing rationales for the privacy-protected APIs we use. macOS shows
+    these strings in the consent prompt and in System Settings.
+  -->
+  <key>NSAccessibilityUsageDescription</key>
+  <string>Qrammarly reads the text you're editing in the frontmost app so it can suggest corrections, then writes the accepted fix back. Nothing is read until you press the global hotkey.</string>
+
+  <key>NSAppleEventsUsageDescription</key>
+  <string>Qrammarly uses AppleScript to talk to Microsoft Word, Apple Pages, and Microsoft Outlook for richer document access when the standard Accessibility APIs aren't enough.</string>
+
+  <!--
+    Apps we explicitly script. macOS Mojave+ requires entries here for each
+    target bundle ID when sandboxed; harmless on non-sandboxed builds.
+  -->
+  <key>NSAppleEventsUsageScripts</key>
+  <array>
+    <string>com.microsoft.Word</string>
+    <string>com.apple.iWork.Pages</string>
+    <string>com.microsoft.Outlook</string>
+    <string>com.apple.mail</string>
+  </array>
+
+  <key>LSUIElement</key>
+  <false/>
+</dict>
+</plist>

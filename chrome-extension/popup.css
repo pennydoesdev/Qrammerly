@@ -1,0 +1,157 @@
+/* Qrammarly popup — Montserrat + Coolors palette */
+
+:root {
+  --sun:     #FFBE0B;
+  --flame:   #FB5607;
+  --magenta: #FF006E;
+  --iris:    #8338EC;
+  --sky:     #3A86FF;
+  --ink:     #15161A;
+}
+
+* { box-sizing: border-box; }
+body {
+  width: 380px;
+  margin: 0;
+  font: 13px/1.5 "Montserrat", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  background: #fafafa;
+  color: var(--ink);
+}
+.hidden { display: none; }
+
+header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px;
+  background:
+    radial-gradient(120% 200% at 100% 0%, rgba(255, 0, 110, 0.12), transparent 60%),
+    radial-gradient(120% 200% at 0% 100%, rgba(58, 134, 255, 0.10), transparent 60%),
+    #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.logo {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  color: #fff;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800; font-size: 18px; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--iris) 0%, var(--magenta) 55%, var(--flame) 100%);
+  box-shadow: 0 6px 18px rgba(131, 56, 236, 0.32);
+}
+.title { font-weight: 800; letter-spacing: -0.01em; font-size: 15px; }
+.sub { font-size: 11px; color: #6b7280; font-weight: 600; }
+
+.tabs {
+  display: flex;
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0 8px;
+}
+.tab {
+  background: transparent;
+  border: 0;
+  padding: 10px 12px;
+  font: 600 12px "Montserrat", sans-serif;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab.active {
+  color: var(--ink);
+  border-bottom-color: var(--magenta);
+}
+
+.panel {
+  padding: 14px 16px;
+}
+
+.hint { font-size: 12px; color: #4b5563; margin: 0 0 10px; line-height: 1.5; }
+
+textarea, input[type="text"], input[type="password"] {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  border-radius: 10px;
+  padding: 9px 11px;
+  font: inherit;
+  background: #fff;
+}
+textarea {
+  min-height: 110px;
+  resize: vertical;
+  font-family: inherit;
+}
+textarea:focus, input:focus {
+  outline: none;
+  border-color: var(--iris);
+  box-shadow: 0 0 0 3px rgba(131, 56, 236, 0.18);
+}
+
+.row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+.meta { font-size: 11px; color: #6b7280; font-weight: 600; }
+
+button.primary {
+  border: 0; cursor: pointer;
+  padding: 9px 14px; border-radius: 10px;
+  font: 700 12px "Montserrat", sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, var(--iris) 0%, var(--magenta) 55%, var(--flame) 100%);
+  box-shadow: 0 6px 14px rgba(255, 0, 110, 0.28);
+}
+button.primary:hover { filter: brightness(1.05); }
+
+.keygrid {
+  display: flex; flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.key-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+.key-row-label { font-size: 11px; font-weight: 700; color: #4b5563; }
+.key-row-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.key-row-fields input {
+  padding: 7px 9px; font-size: 11px;
+}
+
+.field { display: block; font-size: 11px; color: #6b7280; font-weight: 600; }
+.field input { margin-top: 6px; }
+
+.radio { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-weight: 600; font-size: 12px; }
+.donate {
+  display: inline-block;
+  margin: 6px 0 12px;
+  font-weight: 700; font-size: 12px;
+  color: var(--magenta);
+  text-decoration: none;
+}
+.donate:hover { text-decoration: underline; }
+
+#results { margin-top: 10px; }
+.suggestion {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 8px;
+}
+.suggestion .h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.suggestion .pill {
+  text-transform: uppercase; font-size: 9px; letter-spacing: 0.06em; font-weight: 700;
+  padding: 3px 8px; border-radius: 999px;
+}
+.suggestion .pill.spelling    { background: rgba(255, 0, 110, 0.14); color: var(--magenta); }
+.suggestion .pill.grammar     { background: rgba(251, 86, 7, 0.14); color: var(--flame); }
+.suggestion .pill.punctuation { background: rgba(255, 190, 11, 0.20); color: #B8860B; }
+.suggestion .pill.clarity     { background: rgba(58, 134, 255, 0.14); color: var(--sky); }
+.suggestion .pill.style       { background: rgba(131, 56, 236, 0.14); color: var(--iris); }
+.suggestion .body { display: flex; gap: 8px; align-items: baseline; }
+.suggestion .orig { text-decoration: line-through; color: #9ca3af; }
+.suggestion .repl { font-weight: 700; }
+.suggestion .why { font-size: 12px; color: #4b5563; margin-top: 4px; }
+.empty { color: #6b7280; font-size: 12px; padding: 4px 0; }

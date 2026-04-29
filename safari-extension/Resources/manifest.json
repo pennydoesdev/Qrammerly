@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Qrammerly",
-  "version": "0.1.0",
-  "description": "Multi-model AI proofreading inside any text field.",
-  "permissions": ["storage", "activeTab", "scripting"],
+  "name": "Qrammarly",
+  "version": "0.2.0",
+  "description": "Multi-model AI proofreading inside any text field. BYOK + community Featherless option.",
+  "permissions": ["storage", "activeTab", "scripting", "nativeMessaging"],
   "host_permissions": ["http://localhost:8787/*", "https://*/*", "http://*/*"],
-  "background": { "service_worker": "background.js", "type": "module" },
+  "background": { "service_worker": "background.js" },
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],
@@ -16,6 +16,6 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Qrammerly"
+    "default_title": "Qrammarly"
   }
 }
