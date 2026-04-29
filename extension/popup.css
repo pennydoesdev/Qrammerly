@@ -1,0 +1,78 @@
+* { box-sizing: border-box; }
+body {
+  width: 360px;
+  margin: 0;
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  background: #fafafa;
+  color: #1a1a1a;
+}
+header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.logo {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #111827, #2f3a4f);
+  color: #fff;
+  font-weight: 700;
+  display: grid; place-items: center;
+}
+.title { font-weight: 600; }
+.sub { font-size: 11px; color: #6b7280; }
+
+.panel {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+.panel.settings label { display: block; font-size: 11px; color: #6b7280; margin-bottom: 4px; }
+
+textarea {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
+}
+input[type="text"] {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+}
+
+.row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.meta { font-size: 11px; color: #6b7280; }
+
+button {
+  background: #111827; color: #fff;
+  border: 0; border-radius: 8px;
+  padding: 8px 14px; font-weight: 600; cursor: pointer;
+}
+button.ghost { background: #f3f4f6; color: #1a1a1a; margin-top: 6px; }
+button:hover { opacity: 0.92; }
+
+.suggestion {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 8px;
+}
+.suggestion .h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.suggestion .pill {
+  text-transform: uppercase; font-size: 10px; letter-spacing: 0.04em;
+  padding: 2px 8px; border-radius: 999px; background: rgba(17, 24, 39, 0.08); color: #111827;
+}
+.suggestion .body { display: flex; gap: 8px; align-items: baseline; }
+.suggestion .orig { text-decoration: line-through; color: #9ca3af; }
+.suggestion .repl { font-weight: 600; }
+.suggestion .why { font-size: 12px; color: #4b5563; margin-top: 4px; }
+.empty { color: #6b7280; font-size: 12px; padding: 4px 0; }
