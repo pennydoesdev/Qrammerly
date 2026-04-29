@@ -389,7 +389,6 @@ private struct SettingsSheet: View {
         "perplexity": "Perplexity",
         "kimi": "Moonshot (Kimi)",
         "minimax": "MiniMax",
-        "featherless": "Featherless",
     ]
 
     /// Adapter name → key field name (mirrors the JS KEY_FIELD map).
@@ -398,7 +397,7 @@ private struct SettingsSheet: View {
         "llama": "together", "mistral": "mistral", "cohere": "cohere",
         "deepseek": "deepseek", "qwen": "qwen", "grok": "xai",
         "perplexity": "perplexity", "kimi": "moonshot",
-        "minimax": "minimax", "featherless": "featherless",
+        "minimax": "minimax",
     ]
 
     var body: some View {

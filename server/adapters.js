@@ -96,12 +96,6 @@ async function minimaxRun(text, key, model) {
 const PERSONAL = (envName, clientField) => (req) =>
   req?.keys?.[clientField] || process.env[envName] || "";
 
-const FEATHERLESS_KEY = (req) => {
-  if (req?.keys?.featherless) return req.keys.featherless;
-  if (req?.keys?.featherless_community) return process.env.FEATHERLESS_COMMUNITY_KEY || "";
-  return "";
-};
-
 export const ADAPTERS = [
   {
     name: "openai",
@@ -200,24 +194,6 @@ export const ADAPTERS = [
     defaultModel: "abab6.5s-chat",
     suggestedModels: ["abab6.5s-chat", "abab6.5g-chat", "abab6.5t-chat", "MiniMax-Text-01"],
     run: minimaxRun,
-  },
-  {
-    name: "featherless",
-    keyFor: FEATHERLESS_KEY,
-    defaultModel: "meta-llama/Meta-Llama-3.1-70B-Instruct",
-    // Featherless hosts hundreds of models — these are popular ones.
-    suggestedModels: [
-      "meta-llama/Meta-Llama-3.1-70B-Instruct",
-      "meta-llama/Meta-Llama-3.1-8B-Instruct",
-      "Qwen/Qwen2.5-72B-Instruct",
-      "mistralai/Mistral-Nemo-Instruct-2407",
-      "deepseek-ai/DeepSeek-V3",
-      "google/gemma-2-27b-it",
-    ],
-    run: chatCompletions({
-      url: "https://api.featherless.ai/v1/chat/completions",
-      defaultModel: "meta-llama/Meta-Llama-3.1-70B-Instruct",
-    }),
   },
 ];
 

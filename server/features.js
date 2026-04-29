@@ -147,7 +147,6 @@ const ENDPOINTS = {
   grok: "https://api.x.ai/v1/chat/completions",
   perplexity: "https://api.perplexity.ai/chat/completions",
   kimi: "https://api.moonshot.cn/v1/chat/completions",
-  featherless: "https://api.featherless.ai/v1/chat/completions",
 };
 
 const MODELS = {
@@ -160,5 +159,4 @@ const MODELS = {
   grok: "grok-2-latest",
   perplexity: "sonar",
   kimi: "moonshot-v1-32k",
-  featherless: "meta-llama/Meta-Llama-3.1-70B-Instruct",
 };

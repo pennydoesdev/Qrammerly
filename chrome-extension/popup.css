@@ -155,3 +155,54 @@ button.primary:hover { filter: brightness(1.05); }
 .suggestion .repl { font-weight: 700; }
 .suggestion .why { font-size: 12px; color: #4b5563; margin-top: 4px; }
 .empty { color: #6b7280; font-size: 12px; padding: 4px 0; }
+
+.paragraph-nav, .issue-nav {
+  display: flex; gap: 6px; align-items: center; justify-content: space-between;
+  margin: 8px 0 4px;
+}
+.paragraph-nav button, .issue-nav button {
+  background: #f3f4f6; color: #374151; border: 0;
+  padding: 5px 10px; border-radius: 8px; cursor: pointer;
+  font: 700 11px "Montserrat", sans-serif;
+}
+.paragraph-nav button:hover, .issue-nav button:hover { background: #e5e7eb; }
+.paragraph-nav button:disabled, .issue-nav button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.paragraph-preview {
+  font: 13px/1.55 "Montserrat", sans-serif;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  padding: 12px 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 8px 0;
+}
+.paragraph-preview .qr-mark {
+  cursor: pointer;
+  border-bottom: 2px solid var(--magenta);
+  background: rgba(255, 0, 110, 0.10);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.paragraph-preview .qr-mark.qr-grammar     { border-color: var(--flame); background: rgba(251, 86, 7, 0.12); }
+.paragraph-preview .qr-mark.qr-punctuation { border-color: var(--sun); background: rgba(255, 190, 11, 0.18); }
+.paragraph-preview .qr-mark.qr-clarity     { border-color: var(--sky); background: rgba(58, 134, 255, 0.12); }
+.paragraph-preview .qr-mark.qr-style       { border-color: var(--iris); background: rgba(131, 56, 236, 0.12); }
+.paragraph-preview .qr-mark.active {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.suggestion .actions { display: flex; gap: 8px; margin-top: 10px; }
+.suggestion .actions button {
+  flex: 1; padding: 7px 10px; border-radius: 8px; border: 0; cursor: pointer;
+  font: 700 12px "Montserrat", sans-serif;
+}
+.suggestion .actions .primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--iris) 0%, var(--magenta) 55%, var(--flame) 100%);
+}
+.suggestion .actions .ghost { background: #f3f4f6; color: #374151; }

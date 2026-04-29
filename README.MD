@@ -1,10 +1,14 @@
 # Qrammerly
 
-A multi-model AI proofreader. **Thirteen** language models inspect your text in
-parallel and suggestions are ranked by cross-model consensus.
-**Bring-your-own-keys** by default; an optional **Featherless community key**
-is available behind a donation. Every accepted correction is appended to a
-raw-text corpus ready to fine-tune a future internal model on Hugging Face.
+A multi-model AI proofreader. **Twelve** language models inspect your text in
+parallel and suggestions are ranked by cross-model consensus. The reviewer is
+**paragraph-at-a-time** and **one-correction-at-a-time** so you stay in
+control. Responses are **cached** end-to-end (browser, server, edge) so the
+same paragraph never costs you tokens twice.
+
+**Bring-your-own-keys** by default — keys live on your device and the server
+uses them transiently. Every accepted correction is appended to a raw-text
+corpus that will eventually fine-tune our own internal model on Hugging Face.
 
 Cross-platform from day one: **Chrome / Edge / Firefox / Safari** extensions, a
 **macOS** app with global hotkey + Accessibility/Automation integration into
@@ -43,7 +47,7 @@ Wordmark: **Montserrat** 800. Palette:
 The logo is a single uppercase **Q** in Montserrat 800/900 over an
 Iris→Magenta→Flame gradient.
 
-## Models (13)
+## Models (12)
 
 | #  | Provider               | Model                              |
 | -- | ---------------------- | ---------------------------------- |
@@ -59,12 +63,30 @@ Iris→Magenta→Flame gradient.
 | 10 | Perplexity             | `sonar`                            |
 | 11 | Moonshot Kimi          | `moonshot-v1-32k`                  |
 | 12 | MiniMax                | `abab6.5s-chat`                    |
-| 13 | Featherless (community)| `Meta-Llama-3.1-70B-Instruct`      |
 
 The aggregator runs every adapter concurrently, normalises each suggestion to
 a common shape `{start, end, original, replacement, type, explanation}`, then
 clusters overlapping spans and ranks them by how many models agree. Missing or
 failing providers degrade gracefully.
+
+## Reviewer flow
+
+Both the popup widget and the Mac app step through your text **one paragraph
+at a time**. Paragraphs are split on blank lines; the reviewer:
+
+1. Fetches suggestions for the current paragraph (cached if seen before).
+2. Highlights every error inline with a coloured underline.
+3. Lets you walk through them **one issue at a time** (Prev / Next), accepting
+   or skipping each individually before moving on to the next paragraph.
+
+Two layers of cache keep token spend low:
+
+- **Browser** — `chrome.storage.local` keyed by SHA-256(paragraph), TTL 24 h.
+- **Server / Worker** — in-memory LRU on the Node server, `caches.default`
+  on Cloudflare Workers, both keyed by SHA-256(paragraph), TTL 1 h.
+
+A repeated paragraph never reaches the providers — the response is served
+from cache.
 
 ## Bring your own keys (BYOK) and pick your own models
 
@@ -86,14 +108,6 @@ both render from this endpoint).
   "models": { "openai": "gpt-4o-mini", "anthropic": "claude-opus-4-7" }
 }
 ```
-
-## Featherless community key
-
-[Featherless.ai](https://featherless.ai) hosts hundreds of open-weight models
-behind one OpenAI-compatible API. Two modes:
-
-1. **Personal** — paste your own Featherless key in settings.
-2. **Community** — donate any amount to get the rotating community token.
 
 ## Code-aware correction corpus
 
@@ -251,7 +265,7 @@ python3 -m http.server -d website 8080
 ```json
 {
   "text": "Their going too the store",
-  "keys": { "openai": "sk-...", "featherless_community": true }
+  "keys": { "openai": "sk-...", "anthropic": "sk-ant-..." }
 }
 ```
 

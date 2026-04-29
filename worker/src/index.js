@@ -46,10 +46,26 @@ app.get("/v1/models", (c) => c.json({
 
 // ---- Proofreading ----------------------------------------------------------
 
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 app.post("/v1/check", async (c) => {
   const body = await c.req.json().catch(() => ({}));
   const text = (body.text ?? "").toString();
   if (!text.trim()) return c.json({ models_used: [], suggestions: [] });
+
+  // Cache lookup via the Worker Cache API. Same paragraph → same suggestions,
+  // no fan-out to providers, no token spend. We synthesise a GET URL out of
+  // the text hash so Cache API (which only caches GETs) plays along.
+  const hash = await sha256Hex(text);
+  const cacheKey = new Request(`https://cache.qrammerly.com/v1/check/${hash}`, { method: "GET" });
+  const hit = await caches.default.match(cacheKey);
+  if (hit) {
+    const cached = await hit.json();
+    return c.json({ ...cached, cached: true });
+  }
 
   const active = ADAPTERS
     .map((a) => ({ a, key: a.keyFor(body, c.env), model: modelFor(a, body) }))
@@ -69,6 +85,14 @@ app.post("/v1/check", async (c) => {
 
   const suggestions = aggregate(text, perModel);
   const payload = { models_used: perModel.map((p) => p.name), suggestions };
+
+  // Cache for an hour. s-maxage controls the Worker Cache lifetime.
+  c.executionCtx.waitUntil(caches.default.put(
+    cacheKey,
+    new Response(JSON.stringify(payload), {
+      headers: { "content-type": "application/json", "cache-control": "public, s-maxage=3600" },
+    }),
+  ));
 
   // Don't block the response on the corpus write.
   c.executionCtx.waitUntil(

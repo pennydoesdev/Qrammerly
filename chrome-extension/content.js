@@ -146,6 +146,34 @@ function schedule(el) {
   entry.timer = setTimeout(() => check(el), DEBOUNCE_MS);
 }
 
+// Pull the paragraph at the current caret position. Falls back to the whole
+// text if we can't read a caret. Returns absolute [start, end) within the
+// element's text plus the paragraph contents.
+function currentParagraph(el, text) {
+  let caret = text.length;
+  if ("selectionStart" in el && el.selectionStart != null) caret = el.selectionStart;
+  // contenteditable: best-effort caret resolution via Selection API.
+  if (el.isContentEditable) {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount && el.contains(sel.anchorNode)) {
+      const range = sel.getRangeAt(0).cloneRange();
+      range.setStart(el, 0);
+      caret = range.toString().length;
+    }
+  }
+  const before = text.lastIndexOf("\n\n", Math.max(0, caret - 1));
+  const after = text.indexOf("\n\n", caret);
+  const start = before === -1 ? 0 : before + 2;
+  const end = after === -1 ? text.length : after;
+  return { start, end, text: text.slice(start, end).trim() };
+}
+
+const paragraphCache = new Map(); // hash -> suggestions
+async function paragraphHash(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 async function check(el) {
   const entry = state.get(el);
   if (!entry) return;
@@ -158,9 +186,31 @@ async function check(el) {
   if (text === entry.lastText) return;
   entry.lastText = text;
 
-  const resp = await chrome.runtime.sendMessage({ type: "qr.check", text });
-  if (!resp?.ok) return;
-  entry.suggestions = resp.data.suggestions || [];
+  // Only proofread the paragraph the user is currently editing — saves tokens
+  // and avoids reflowing untouched text. Offsets are mapped back to the full
+  // input so the overlay still aligns.
+  const para = currentParagraph(el, text);
+  if (!para.text || para.text.length < MIN_CHARS) {
+    entry.suggestions = [];
+    render(el, text, entry.suggestions);
+    return;
+  }
+
+  const hash = await paragraphHash(para.text);
+  let suggestions = paragraphCache.get(hash);
+  if (!suggestions) {
+    const resp = await chrome.runtime.sendMessage({ type: "qr.check", text: para.text });
+    if (!resp?.ok) return;
+    suggestions = resp.data.suggestions || [];
+    paragraphCache.set(hash, suggestions);
+    if (paragraphCache.size > 50) {
+      paragraphCache.delete(paragraphCache.keys().next().value);
+    }
+  }
+
+  entry.suggestions = suggestions.map((s) => ({
+    ...s, start: s.start + para.start, end: s.end + para.start,
+  }));
   render(el, text, entry.suggestions);
 }
 

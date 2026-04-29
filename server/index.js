@@ -6,6 +6,7 @@ import { aggregate } from "./aggregate.js";
 import { record, recordApplied } from "./corpus.js";
 import { textStats } from "./stats.js";
 import { detectTone, proofreadForGoals } from "./features.js";
+import { hashText, get as cacheGet, set as cacheSet } from "./cache.js";
 
 const app = express();
 app.use(cors());
@@ -50,6 +51,11 @@ app.post("/v1/check", async (req, res) => {
   const text = (req.body?.text ?? "").toString();
   if (!text.trim()) return res.json({ models_used: [], suggestions: [] });
 
+  // Cache lookup. Same input → same suggestions, no provider calls, no tokens.
+  const key = hashText(text);
+  const cached = cacheGet(key);
+  if (cached) return res.json({ ...cached, cached: true });
+
   const active = ADAPTERS
     .map((a) => ({ a, key: a.keyFor(req.body || {}), model: modelFor(a, req.body || {}) }))
     .filter((x) => !!x.key);
@@ -68,6 +74,7 @@ app.post("/v1/check", async (req, res) => {
 
   const suggestions = aggregate(text, perModel);
   const payload = { models_used: perModel.map((p) => p.name), suggestions };
+  cacheSet(key, payload);
 
   setImmediate(() => {
     try { record({ text, suggestions, models_used: payload.models_used }); }

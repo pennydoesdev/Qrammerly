@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Qrammerly",
   "version": "0.2.0",
-  "description": "Multi-model AI proofreading inside any text field. BYOK + community Featherless option.",
+  "description": "Multi-model AI proofreading inside any text field. BYOK.",
   "browser_specific_settings": {
     "gecko": {
       "id": "qrammerly@pennydoesdev.com",

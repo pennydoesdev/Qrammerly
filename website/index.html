@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Qrammerly — Multi-model AI proofreading</title>
-  <meta name="description" content="Twelve frontier models plus Kimi, MiniMax, and Featherless inspect your writing in parallel. BYOK. Private. Open source." />
+  <meta name="description" content="Twelve frontier models, including Kimi and MiniMax, inspect your writing in parallel. BYOK. Private. Open source." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -32,13 +32,12 @@
     </h1>
     <p class="lede">
       Qrammerly fans every sentence out to OpenAI, Anthropic, Google, Meta,
-      Mistral, Cohere, DeepSeek, Qwen, xAI, Perplexity, Kimi, MiniMax — plus a
-      community Featherless tier for open-weight models — and ranks suggestions
-      by how many models agree.
+      Mistral, Cohere, DeepSeek, Qwen, xAI, Perplexity, Kimi and MiniMax, then
+      ranks suggestions by how many models agree.
     </p>
     <div class="hero-actions">
       <a class="btn primary" href="#try">Try it now</a>
-      <a class="btn ghost" href="#pricing">Donate &amp; unlock community key</a>
+      <a class="btn ghost" href="#features">See how it works</a>
     </div>
     <div class="chips">
       <span class="chip">BYOK</span>
@@ -56,15 +55,15 @@
     </div>
     <div class="card">
       <div class="card-head"><span class="dot dot-flame"></span>Bring your own keys</div>
-      <p>API keys live on your device. The local server uses them transiently for each request and never stores them. Run it on your laptop or self-host the Docker image.</p>
+      <p>API keys live on your device. The server uses them transiently for each request and never stores them.</p>
     </div>
     <div class="card">
-      <div class="card-head"><span class="dot dot-iris"></span>Featherless community key</div>
-      <p>Tip the project to unlock a shared Featherless.ai key — hundreds of open-weight models behind one endpoint. No subscription needed.</p>
+      <div class="card-head"><span class="dot dot-iris"></span>Paragraph-at-a-time</div>
+      <p>We proofread one paragraph at a time and let you accept fixes one by one — fewer tokens, cleaner edits, no surprise rewrites.</p>
     </div>
     <div class="card">
-      <div class="card-head"><span class="dot dot-sky"></span>Code-aware corpus</div>
-      <p>Every accepted correction is appended to a JSONL corpus with detected programming language. Fine-tune your own internal model from it on Hugging Face.</p>
+      <div class="card-head"><span class="dot dot-sky"></span>Cached responses</div>
+      <p>Identical paragraphs return cached suggestions instantly without spending tokens — both on the server and in your browser.</p>
     </div>
     <div class="card">
       <div class="card-head"><span class="dot dot-sun"></span>Works everywhere you write</div>
@@ -103,24 +102,14 @@
         <a class="btn ghost" href="https://github.com/pennydoesdev/Qrammerly" target="_blank" rel="noopener">Get the code</a>
       </div>
       <div class="tier featured">
-        <h3>Community Featherless</h3>
-        <p class="price">Pay what you want</p>
-        <ul>
-          <li>One-time donation unlocks a shared Featherless.ai token</li>
-          <li>Hundreds of open-weight models, one endpoint</li>
-          <li>Rate-limited per user, rotated periodically</li>
-        </ul>
-        <a class="btn primary" href="https://buymeacoffee.com/qrammerly" target="_blank" rel="noopener">Donate &amp; unlock</a>
-      </div>
-      <div class="tier">
         <h3>Hosted (coming soon)</h3>
         <p class="price">$8 / month</p>
         <ul>
-          <li>We host the aggregator</li>
+          <li>We host the aggregator at qrammerly.com</li>
           <li>Encrypted history sync across devices</li>
           <li>Team writing analytics</li>
         </ul>
-        <a class="btn ghost" href="#account">Get notified</a>
+        <a class="btn primary" href="#account">Get notified</a>
       </div>
     </div>
   </section>

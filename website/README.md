@@ -18,7 +18,7 @@ front of the `api` upstream — there's an example block in `infra/nginx.conf`.
 ## Pages / sections
 
 - Hero with brand gradient
-- Feature grid (consensus, BYOK, Featherless, code-aware corpus, app coverage, tone/goals)
+- Feature grid (consensus, BYOK, paragraph stepping, cache, code-aware corpus, app coverage, tone/goals)
 - Try-it widget (`/v1/check`, `/v1/stats`, `/v1/tone`)
-- Pricing (Self-host, Community Featherless, Hosted soon)
+- Pricing (Self-host, Hosted soon)
 - Auth (signup / login / dashboard with stats and recent corrections)

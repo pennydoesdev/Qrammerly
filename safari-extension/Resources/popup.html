@@ -19,7 +19,6 @@
     <nav class="tabs">
       <button class="tab active" data-tab="check">Check</button>
       <button class="tab" data-tab="keys">Keys &amp; Models</button>
-      <button class="tab" data-tab="featherless">Featherless</button>
       <button class="tab" data-tab="settings">Settings</button>
     </nav>
 
@@ -29,7 +28,18 @@
         <button id="check" class="primary">Check</button>
         <span class="meta" id="meta"></span>
       </div>
+      <div class="row paragraph-nav hidden" id="paragraph-nav">
+        <button id="prev-para" class="ghost">‹ Prev paragraph</button>
+        <span class="meta" id="para-counter"></span>
+        <button id="next-para" class="ghost">Next paragraph ›</button>
+      </div>
+      <div id="paragraph-preview" class="paragraph-preview hidden"></div>
       <div id="results"></div>
+      <div class="row issue-nav hidden" id="issue-nav">
+        <button id="prev-issue" class="ghost">‹ Prev</button>
+        <span class="meta" id="issue-counter"></span>
+        <button id="next-issue" class="ghost">Next ›</button>
+      </div>
     </section>
 
     <section class="panel hidden" data-pane="keys">
@@ -38,19 +48,9 @@
       <button id="save-keys" class="primary">Save</button>
     </section>
 
-    <section class="panel hidden" data-pane="featherless">
-      <p class="hint"><strong>Featherless.ai</strong> hosts hundreds of open-weight models behind one API. Choose <em>Personal</em> if you have your own subscription, or unlock the <em>Community</em> key by tipping the project.</p>
-      <label class="radio"><input type="radio" name="fl" value="off" /> Off</label>
-      <label class="radio"><input type="radio" name="fl" value="personal" /> Personal — paste your key</label>
-      <input id="fl-key" type="password" placeholder="featherless key" />
-      <label class="radio"><input type="radio" name="fl" value="community" /> Community key (donation-unlocked)</label>
-      <a class="donate" id="donate" href="https://buymeacoffee.com/qrammerly" target="_blank" rel="noopener">Donate to unlock →</a>
-      <button id="save-fl" class="primary">Save</button>
-    </section>
-
     <section class="panel hidden" data-pane="settings">
       <label class="field">API endpoint
-        <input id="endpoint" type="text" placeholder="http://localhost:8787/v1/check" />
+        <input id="endpoint" type="text" placeholder="https://qrammerly.com/v1/check" />
       </label>
       <button id="save-endpoint" class="primary">Save</button>
     </section>

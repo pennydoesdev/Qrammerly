@@ -9,7 +9,6 @@ Cloudflare Worker that hosts the Qrammerly `/v1/*` API at **qrammerly.com**.
 | `DB`      | D1 database (`qrammerly-auth`) — users, history, stats |
 | `CORPUS`  | R2 bucket (`qrammerly-corpus`) — JSON-per-check training corpus |
 | `<NAME>_API_KEY` | Per-provider env-fallback keys (set via `wrangler secret put`); BYOK still wins |
-| `FEATHERLESS_COMMUNITY_KEY` | Donation-pool key for the community Featherless tier |
 | `AUTH_SECRET` | HMAC secret for JWT signing                       |
 
 ## Local dev
