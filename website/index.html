@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Qrammarly — Multi-model AI proofreading</title>
+  <meta name="description" content="Twelve frontier models plus Kimi, MiniMax, and Featherless inspect your writing in parallel. BYOK. Private. Open source." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#">
+      <span class="brand-logo">Q</span>
+      <span class="brand-name">Qrammarly</span>
+    </a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#try">Try it</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#account">Account</a>
+      <a href="https://github.com/pennydoesdev/Qrammerly" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>
+      Twelve frontier models<br/>
+      <span class="grad">read your writing</span> together.
+    </h1>
+    <p class="lede">
+      Qrammarly fans every sentence out to OpenAI, Anthropic, Google, Meta,
+      Mistral, Cohere, DeepSeek, Qwen, xAI, Perplexity, Kimi, MiniMax — plus a
+      community Featherless tier for open-weight models — and ranks suggestions
+      by how many models agree.
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#try">Try it now</a>
+      <a class="btn ghost" href="#pricing">Donate &amp; unlock community key</a>
+    </div>
+    <div class="chips">
+      <span class="chip">BYOK</span>
+      <span class="chip">Open source</span>
+      <span class="chip">Local-first</span>
+      <span class="chip">Chrome · Edge · Firefox · Safari</span>
+      <span class="chip">macOS app</span>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="card">
+      <div class="card-head"><span class="dot dot-magenta"></span>Cross-model consensus</div>
+      <p>Each suggestion is annotated with the share of models that agreed and the cluster of overlapping spans. False positives drop sharply when a fix has 11/13 backing it.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="dot dot-flame"></span>Bring your own keys</div>
+      <p>API keys live on your device. The local server uses them transiently for each request and never stores them. Run it on your laptop or self-host the Docker image.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="dot dot-iris"></span>Featherless community key</div>
+      <p>Tip the project to unlock a shared Featherless.ai key — hundreds of open-weight models behind one endpoint. No subscription needed.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="dot dot-sky"></span>Code-aware corpus</div>
+      <p>Every accepted correction is appended to a JSONL corpus with detected programming language. Fine-tune your own internal model from it on Hugging Face.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="dot dot-sun"></span>Works everywhere you write</div>
+      <p>Browsers via the extension. Word, Pages, Outlook, Mail, and any AX-compliant app via the Mac app. Press <kbd>⌥⌘G</kbd> and Qrammarly takes over.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="dot dot-magenta"></span>Tone, goals, readability</div>
+      <p>Beyond grammar: tone detection, audience- and formality-aware proofreading, Flesch readability, vocabulary diversity, reading time.</p>
+    </div>
+  </section>
+
+  <section id="try" class="try">
+    <h2>Try it</h2>
+    <p class="muted">Hits the API at <code id="endpoint-display">http://localhost:8787</code>. Set your endpoint and keys below.</p>
+    <textarea id="try-text" placeholder="Paste a paragraph and click Check…"></textarea>
+    <div class="try-row">
+      <button class="btn primary" id="try-check">Check</button>
+      <button class="btn ghost" id="try-stats">Stats</button>
+      <button class="btn ghost" id="try-tone">Tone</button>
+      <span id="try-meta" class="muted"></span>
+    </div>
+    <div id="try-results"></div>
+  </section>
+
+  <section id="pricing" class="pricing">
+    <h2>Pricing</h2>
+    <div class="tiers">
+      <div class="tier">
+        <h3>Self-hosted</h3>
+        <p class="price">Free forever</p>
+        <ul>
+          <li>Run the open-source server locally or in your own Docker</li>
+          <li>Bring your own keys, full feature set</li>
+          <li>Corpus stays on your machine</li>
+        </ul>
+        <a class="btn ghost" href="https://github.com/pennydoesdev/Qrammerly" target="_blank" rel="noopener">Get the code</a>
+      </div>
+      <div class="tier featured">
+        <h3>Community Featherless</h3>
+        <p class="price">Pay what you want</p>
+        <ul>
+          <li>One-time donation unlocks a shared Featherless.ai token</li>
+          <li>Hundreds of open-weight models, one endpoint</li>
+          <li>Rate-limited per user, rotated periodically</li>
+        </ul>
+        <a class="btn primary" href="https://buymeacoffee.com/qrammarly" target="_blank" rel="noopener">Donate &amp; unlock</a>
+      </div>
+      <div class="tier">
+        <h3>Hosted (coming soon)</h3>
+        <p class="price">$8 / month</p>
+        <ul>
+          <li>We host the aggregator</li>
+          <li>Encrypted history sync across devices</li>
+          <li>Team writing analytics</li>
+        </ul>
+        <a class="btn ghost" href="#account">Get notified</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="account" class="account">
+    <h2>Sign in</h2>
+    <p class="muted">Optional. Saves your accepted corrections and unlocks personal stats.</p>
+    <div class="auth">
+      <div class="auth-form">
+        <h3>Sign up</h3>
+        <input id="su-email" type="email" placeholder="you@example.com" />
+        <input id="su-password" type="password" placeholder="password (8+ chars)" />
+        <button class="btn primary" id="su-submit">Create account</button>
+      </div>
+      <div class="auth-form">
+        <h3>Log in</h3>
+        <input id="li-email" type="email" placeholder="you@example.com" />
+        <input id="li-password" type="password" placeholder="password" />
+        <button class="btn primary" id="li-submit">Log in</button>
+      </div>
+    </div>
+    <div id="auth-state" class="muted"></div>
+    <div id="dashboard" class="hidden">
+      <h3>Your stats</h3>
+      <div id="stats-grid" class="stats-grid"></div>
+      <h3>Recent corrections</h3>
+      <div id="history-list"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© Qrammarly</span>
+    <span>Open source · MIT</span>
+    <span>Made with Sun · Flame · Magenta · Iris · Sky</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

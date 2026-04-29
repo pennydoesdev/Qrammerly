@@ -1,12 +1,22 @@
 import SwiftUI
+import AppKit
 
 @main
-struct QrammerlyApp: App {
+struct QrammarlyApp: App {
+    @StateObject private var permissions = PermissionsModel()
+    @StateObject private var hotkey = HotkeyController()
+
     var body: some Scene {
-        WindowGroup("Qrammerly") {
+        WindowGroup("Qrammarly") {
             ContentView()
-                .frame(minWidth: 720, minHeight: 520)
+                .environmentObject(permissions)
+                .environmentObject(hotkey)
+                .frame(minWidth: 760, minHeight: 540)
                 .background(VisualEffectBlur())
+                .onAppear {
+                    permissions.refresh()
+                    hotkey.install()
+                }
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)

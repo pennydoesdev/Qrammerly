@@ -125,6 +125,11 @@ function applyFix(el, s) {
     el.innerText = after;
     el.dispatchEvent(new Event("input", { bubbles: true }));
   }
+  // Tell the background to log this acceptance into the corpus.
+  chrome.runtime.sendMessage({
+    type: "qr.applied",
+    text: before, original: s.original, replacement: s.replacement,
+  }).catch(() => {});
   schedule(el);
 }
 

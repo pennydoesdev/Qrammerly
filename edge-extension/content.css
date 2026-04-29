@@ -1,0 +1,88 @@
+/* Qrammarly palette: Sun #FFBE0B, Flame #FB5607, Magenta #FF006E,
+   Iris #8338EC, Sky #3A86FF. Each suggestion type maps to one. */
+
+.qr-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2147483600;
+  color: transparent;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  background: transparent;
+}
+
+.qr-inner { white-space: pre-wrap; word-wrap: break-word; }
+
+.qr-mark {
+  pointer-events: auto;
+  cursor: pointer;
+  border-bottom: 2px solid #FF006E;
+  background: rgba(255, 0, 110, 0.10);
+  border-radius: 2px;
+  transition: background 120ms ease;
+}
+.qr-mark:hover { background: rgba(255, 0, 110, 0.18); }
+
+.qr-mark.qr-spelling    { border-color: #FF006E; background: rgba(255, 0, 110, 0.10); }
+.qr-mark.qr-grammar     { border-color: #FB5607; background: rgba(251, 86, 7, 0.12); }
+.qr-mark.qr-punctuation { border-color: #FFBE0B; background: rgba(255, 190, 11, 0.16); }
+.qr-mark.qr-clarity     { border-color: #3A86FF; background: rgba(58, 134, 255, 0.12); }
+.qr-mark.qr-style       { border-color: #8338EC; background: rgba(131, 56, 236, 0.12); }
+
+.qr-card {
+  position: absolute;
+  z-index: 2147483647;
+  width: 320px;
+  background: #ffffff;
+  color: #1a1a1a;
+  border-radius: 14px;
+  box-shadow: 0 18px 48px rgba(131, 56, 236, 0.16),
+              0 4px 12px rgba(0, 0, 0, 0.08);
+  font: 13px/1.45 "Montserrat", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
+  padding: 14px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.qr-card-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.qr-pill {
+  text-transform: uppercase;
+  font-size: 10px; letter-spacing: 0.06em; font-weight: 700;
+  padding: 3px 9px; border-radius: 999px;
+  background: rgba(255, 0, 110, 0.14); color: #FF006E;
+}
+.qr-pill.qr-spelling    { background: rgba(255, 0, 110, 0.14); color: #FF006E; }
+.qr-pill.qr-grammar     { background: rgba(251, 86, 7, 0.14); color: #FB5607; }
+.qr-pill.qr-punctuation { background: rgba(255, 190, 11, 0.20); color: #B8860B; }
+.qr-pill.qr-clarity     { background: rgba(58, 134, 255, 0.14); color: #3A86FF; }
+.qr-pill.qr-style       { background: rgba(131, 56, 236, 0.14); color: #8338EC; }
+
+.qr-conf { font-size: 11px; color: #6b7280; font-weight: 600; }
+
+.qr-card-body {
+  display: flex; align-items: center; gap: 8px;
+  margin: 4px 0 10px;
+}
+.qr-orig { text-decoration: line-through; color: #9ca3af; }
+.qr-repl { color: #111827; font-weight: 700; }
+.qr-arrow { color: #9ca3af; }
+
+.qr-explain { color: #4b5563; font-size: 12px; margin-bottom: 12px; line-height: 1.5; }
+
+.qr-card-actions { display: flex; gap: 8px; }
+.qr-btn {
+  flex: 1; padding: 8px 10px;
+  border-radius: 10px; border: 0; cursor: pointer;
+  font-weight: 700; font-size: 12px;
+  font-family: inherit;
+}
+.qr-btn.qr-apply {
+  color: #fff;
+  background: linear-gradient(135deg, #8338EC 0%, #FF006E 60%, #FB5607 100%);
+}
+.qr-btn.qr-apply:hover { filter: brightness(1.05); }
+.qr-btn.qr-ignore { background: #f3f4f6; color: #374151; }
+.qr-btn.qr-ignore:hover { background: #e5e7eb; }
